@@ -1,13 +1,14 @@
-FROM node:16.15.1
-WORKDIR /usr/src/app
-RUN npm install --location=global nodemon
+FROM node:16-alpine
+WORKDIR /app
 COPY package*.json ./
+RUN npm install --location=global nodemon
 RUN npm install
 COPY . .
+CMD ["npm", "run", "start"]
 EXPOSE 8080
 
 #Build to project
 # RUN npm run build
 
 # Run node server
-CMD npm run start
+# CMD npm run start
