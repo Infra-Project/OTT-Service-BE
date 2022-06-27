@@ -6,9 +6,3 @@ RUN npm install
 COPY . .
 CMD ["npm", "run", "start"]
 EXPOSE 8080
-
-#Build to project
-# RUN npm run build
-
-# Run node server
-# CMD npm run start
