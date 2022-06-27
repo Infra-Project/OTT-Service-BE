@@ -34,3 +34,5 @@
 ::1 - - [27/Jun/2022:05:29:47 +0000] "POST /auth/signup HTTP/1.1" 201 42 "-" "insomnia/2021.7.2"
 ::1 - - [27/Jun/2022:05:53:24 +0000] "POST /auth/login HTTP/1.1" 200 224 "-" "insomnia/2021.7.2"
 ::1 - - [27/Jun/2022:05:54:06 +0000] "POST /auth/login HTTP/1.1" 200 224 "-" "insomnia/2021.7.2"
+::1 - - [27/Jun/2022:09:20:00 +0000] "PUT /auth/signup HTTP/1.1" 404 150 "-" "insomnia/2021.7.2"
+::1 - - [27/Jun/2022:09:20:07 +0000] "POST /auth/signup HTTP/1.1" 201 42 "-" "insomnia/2021.7.2"
