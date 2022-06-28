@@ -1,9 +1,29 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 require("dotenv").config();
 
+const nodemailer = require("nodemailer");
+
 const User = require("../models/user");
+
+const EMAIL = "hibogo789@gmail.com";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  port: 587,
+  host: "smtp.gmail.com",
+  auth: {
+    type: "OAuth2",
+    user: EMAIL,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    accessToken: process.env.ACCESS_TOKEN,
+    refreshToken: process.env.REFRESH_TOKEN,
+    expires: 36000,
+  },
+});
 
 exports.signup = async (req, res, next) => {
   try {
@@ -18,7 +38,7 @@ exports.signup = async (req, res, next) => {
     const { email, password } = req.body;
 
     // SELECT `id`, `email`, `password`, `createdAt`, `updatedAt` FROM `users` AS `user` WHERE `user`.`email` = 'test@example.com'
-    const checkEmail = await User.findOne({ where: { email: email } });
+    const checkEmail = await User.findOne({ where: { email } });
 
     if (checkEmail) {
       const error = new Error(`${email} is already registered`);
@@ -26,10 +46,56 @@ exports.signup = async (req, res, next) => {
       throw error;
     }
 
+    let signupToken;
+    const test = "test";
+
+    await crypto.randomBytes(64, (err, buf) => {
+      if (err) {
+        const error = new Error();
+        error.statusCode = 500;
+        throw error;
+      }
+      signupToken = buf.toString("base64");
+
+      transporter.sendMail({
+        to: email,
+        from: EMAIL,
+        subject: "authorization your account",
+        html: `<p>click this link ${process.env.SERVER}/auth/${test}</p>`,
+      });
+    });
+
+    const curr = new Date();
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
+    const kr_curr = new Date(utc + KR_TIME_DIFF);
+
     const hashPwd = await bcrypt.hash(password, 12);
-    const user = await User.create({ email, password: hashPwd });
+    const user = await User.create({
+      email,
+      password: hashPwd,
+      signupToken: test,
+      signupTokenExpiration: kr_curr,
+    });
 
     res.status(201).json({ id: user.id, msg: "user created successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.authorizeUser = async (req, res, next) => {
+  try {
+    const signupToken = req.params.signupToken;
+    const user = await User.findOne({ where: { signupToken: signupToken } });
+    if (!user) {
+      const error = new Error("Invalid signup token provided");
+      error.statusCode = 403;
+      throw error;
+    }
+    await user.update({ status: true });
+
+    res.status(200).json({ msg: "authorization successful", userId: user.id });
   } catch (error) {
     next(error);
   }

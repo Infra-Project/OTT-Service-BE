@@ -5,6 +5,8 @@ const authController = require("../controller/authController");
 
 const router = express.Router();
 
+router.get("/:signupToken", authController.authorizeUser);
+
 router.post("/login", authController.login);
 
 router.post(
@@ -14,6 +16,7 @@ router.post(
     body("password")
       .trim()
       .isLength({ min: 5 })
+      .isAlphanumeric()
       .withMessage("Invalid password"),
   ],
   authController.signup
