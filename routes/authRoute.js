@@ -5,7 +5,9 @@ const authController = require("../controller/authController");
 
 const router = express.Router();
 
-router.get("/:signupToken", authController.authorizeUser);
+router.get("/:signupToken/", authController.authorizeUser);
+
+router.get("/signupToken", authController.authorizeUser);
 
 router.post("/login", authController.login);
 

@@ -46,23 +46,15 @@ exports.signup = async (req, res, next) => {
       throw error;
     }
 
-    let signupToken;
     const test = "test";
+    const signupToken = await bcrypt.hash(email, 10);
+    // console.log(signupToken);
 
-    await crypto.randomBytes(64, (err, buf) => {
-      if (err) {
-        const error = new Error();
-        error.statusCode = 500;
-        throw error;
-      }
-      signupToken = buf.toString("base64");
-
-      transporter.sendMail({
-        to: email,
-        from: EMAIL,
-        subject: "authorization your account",
-        html: `<p>click this link ${process.env.SERVER}/auth/${test}</p>`,
-      });
+    transporter.sendMail({
+      to: email,
+      from: EMAIL,
+      subject: "authorization your account",
+      html: `<p>click this <a href=${process.env.SERVER}/auth/signupToken/?token=${signupToken}>link</a></p>`,
     });
 
     const curr = new Date();
@@ -74,7 +66,7 @@ exports.signup = async (req, res, next) => {
     const user = await User.create({
       email,
       password: hashPwd,
-      signupToken: test,
+      signupToken: signupToken,
       signupTokenExpiration: kr_curr,
     });
 
@@ -84,15 +76,36 @@ exports.signup = async (req, res, next) => {
   }
 };
 
+// exports.authorizeUser = async (req, res, next) => {
+//   try {
+//     const signupToken = req.params.signupToken;
+//     const user = await User.findOne({ where: { signupToken: signupToken } });
+//     if (!user) {
+//       const error = new Error("Invalid signup token provided");
+//       error.statusCode = 403;
+//       throw error;
+//     }
+//     await user.update({ status: true });
+
+//     res.status(200).json({ msg: "authorization successful", userId: user.id });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 exports.authorizeUser = async (req, res, next) => {
   try {
-    const signupToken = req.params.signupToken;
-    const user = await User.findOne({ where: { signupToken: signupToken } });
+    console.log(req.query);
+    const signupToken = req.query.token;
+    const user = await User.findOne({ where: { signupToken } });
+    console.log(user);
+
     if (!user) {
       const error = new Error("Invalid signup token provided");
       error.statusCode = 403;
       throw error;
     }
+
     await user.update({ status: true });
 
     res.status(200).json({ msg: "authorization successful", userId: user.id });
