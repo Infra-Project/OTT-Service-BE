@@ -120,6 +120,8 @@ exports.login = async (req, res, next) => {
 
     const user = await User.findOne({ where: { email } });
 
+    const status = user.status;
+
     if (!user) {
       const error = new Error("User Not Found");
       error.statusCode = 403;
@@ -140,7 +142,9 @@ exports.login = async (req, res, next) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ msg: "login successful", token: token });
+    res
+      .status(200)
+      .json({ msg: "login successful", token: token, userId: user.id, status });
   } catch (err) {
     next(err);
   }
