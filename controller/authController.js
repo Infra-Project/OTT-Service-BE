@@ -53,8 +53,35 @@ exports.signup = async (req, res, next) => {
     transporter.sendMail({
       to: email,
       from: EMAIL,
-      subject: "authorization your account",
-      html: `<p>click this <a href=${process.env.SERVER}/auth/signupToken/?token=${signupToken}>link</a></p>`,
+      subject: "authorization your account to theotter🦦",
+      html: `
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+          <title>authorization your account to theotter🦦</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        </head>
+        <style>
+          #otter {
+            background-image:url("https://mblogthumb-phinf.pstatic.net/MjAxOTExMDhfMjYw/MDAxNTczMjAxOTM1MzY5.S3zKV2zpuUaa0tc8ItmGL_h5m0CVrtmYZxsOUc_ihA0g.aaQ_rpUcCyrw6ur8oa8XJbHFPFl2xrweecEdUu6GtLYg.JPEG.naverschool/GettyImages-1162414574.jpg?type=w800")
+          }
+        </style>
+        <body style="margin: 0; padding: 0;">
+          <table border="1" cellpadding="0" cellspacing="0" width="100%">
+            <tr id="otter" height="200" >
+              <td align="center" bgcolor="#70bbd9" style="padding: 40px 0 30px 0; background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvDipaTkKf8PosrXzcmEZZ7-CIhjbE-ifEOg&usqp=CAU)">
+              </td>
+            </tr>
+            <tr>
+              <td bgcolor="#70bbd9">
+                <h2 align="center"><a href=${process.env.SERVER}/auth/signupToken/?token=${signupToken}>Click</a> to verify your email</h2>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+      `,
     });
 
     const curr = new Date();
@@ -81,7 +108,6 @@ exports.authorizeUser = async (req, res, next) => {
     console.log(req.query);
     const signupToken = req.query.token;
     const user = await User.findOne({ where: { signupToken } });
-    console.log(user);
 
     if (!user) {
       const error = new Error("Invalid signup token provided");
@@ -91,7 +117,7 @@ exports.authorizeUser = async (req, res, next) => {
 
     await user.update({ status: true });
 
-    res.status(200).json({ msg: "authorization successful", userId: user.id });
+    res.redirect(process.env.FRONT_SERVER_LOGIN_URL)
   } catch (error) {
     next(error);
   }
