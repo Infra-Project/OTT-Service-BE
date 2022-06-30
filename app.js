@@ -12,6 +12,8 @@ require("dotenv").config();
 
 const sequelize = require("./database/database");
 const User = require("./models/user");
+const Movie = require("./models/movies");
+const Episode = require("./models/episode");
 
 const authRoute = require("./routes/authRoute");
 
@@ -36,6 +38,9 @@ app.use((error, req, res, next) => {
   res.status(status).json({ status, data, msg });
 });
 
+Episode.belongsTo(Movie, { constraints: true, onDelete: "CASCADE"});
+Movie.hasMany(Episode);
+
 const start = async () => {
   //   sequelize
   //     .sync()
@@ -47,7 +52,7 @@ const start = async () => {
 
   try {
     await sequelize.sync();
-    // await sequelize.sync({ force: true });
+    //await sequelize.sync({ force: true });
     app.listen(process.env.PORT || 8080);
   } catch (err) {
     console.log(err);

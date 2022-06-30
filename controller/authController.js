@@ -49,7 +49,6 @@ exports.signup = async (req, res, next) => {
 
     const test = "test";
     const signupToken = await bcrypt.hash(email, 10);
-    // console.log(signupToken);
 
     transporter.sendMail({
       to: email,
@@ -76,23 +75,6 @@ exports.signup = async (req, res, next) => {
     next(error);
   }
 };
-
-// exports.authorizeUser = async (req, res, next) => {
-//   try {
-//     const signupToken = req.params.signupToken;
-//     const user = await User.findOne({ where: { signupToken: signupToken } });
-//     if (!user) {
-//       const error = new Error("Invalid signup token provided");
-//       error.statusCode = 403;
-//       throw error;
-//     }
-//     await user.update({ status: true });
-
-//     res.status(200).json({ msg: "authorization successful", userId: user.id });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 exports.authorizeUser = async (req, res, next) => {
   try {
@@ -138,7 +120,7 @@ exports.login = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { email: email, userId: user.id },
+      { email: email, userId: user.id, isAdmin: user.isAdmin },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }
     );

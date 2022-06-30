@@ -35,6 +35,11 @@ module.exports = sequelize.define(
       allowNull: false,
       defaultValue: false,
     },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     charset: "utf8",
