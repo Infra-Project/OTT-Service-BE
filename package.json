@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1166.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
@@ -26,6 +27,7 @@
     "sequelize": "^6.21.1",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0",
+    "uuid": "^8.3.2",
     "xss-clean": "^0.1.1",
     "yamljs": "^0.3.0"
   },

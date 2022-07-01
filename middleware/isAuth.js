@@ -4,7 +4,6 @@ require("dotenv").config();
 module.exports = async (req, res, next) => {
   try {
     const header = req.get("Authorization");
-    console.log("header",header);
     if (!header) {
       const error = new Error("do not have authorization header");
       error.statusCode = 401;
