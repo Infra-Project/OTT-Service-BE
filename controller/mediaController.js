@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { s3Uploadv2 } = require("../aws/s3");
+const { s3Uploadv3 } = require("../aws/s3");
 const Movie = require("../models/movies");
 const Episode = require("../models/episode");
 const User = require("../models/user")
@@ -13,7 +13,7 @@ exports.upload = async (req, res, next) => {
             error.statusCode = 403;
             throw error;
         }
-        const results = await s3Uploadv2(req.files);
+        const results = await s3Uploadv3(req.files);
         console.log(results)
         return res.status(200).json({ status: "success" });
     } catch (error) {
@@ -38,8 +38,6 @@ exports.videoUpload = async (req, res, next) => {
             msg: "Create successful", 
             id : Video.id
         })
-
-
 
     } catch (error){
         next(error);

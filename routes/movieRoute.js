@@ -10,6 +10,5 @@ const isAuth = require("../middleware/isAuth")
 // req.params.id = 1
 router.get("/:id", isAuth, movieController.getMovie);
 
-
 module.exports = router;
 
