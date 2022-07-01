@@ -18,11 +18,11 @@ module.exports = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        running_time: {
+        duration: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        url: {
+        video: {
             type: DataTypes.STRING,
             allowNull: false,
         },

@@ -18,6 +18,8 @@ const Episode = require("./models/episode");
 
 const authRoute = require("./routes/authRoute");
 const mediaRoute = require("./routes/mediaRoute");
+const listRoute = require("./routes/listRoute");
+const movieRoute = require("./routes/movieRoute");
 
 const app = express();
 
@@ -31,9 +33,10 @@ app.use(morgan("combined", { stream: logStream }));
 app.use(cors());
 app.use(xss());
 
-
 app.use("/auth", authRoute);
 app.use("/media", mediaRoute);
+app.use("/lists", listRoute);
+app.use("/movies", movieRoute)
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;

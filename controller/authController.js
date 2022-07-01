@@ -84,17 +84,17 @@ exports.signup = async (req, res, next) => {
       `,
     });
 
-    const curr = new Date();
-    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-    const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
-    const kr_curr = new Date(utc + KR_TIME_DIFF);
+    const curr = new Date() + 3600000;
+    // const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    // const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
+    // const kr_curr = new Date(utc + KR_TIME_DIFF);
 
     const hashPwd = await bcrypt.hash(password, 12);
     const user = await User.create({
       email,
       password: hashPwd,
       signupToken: signupToken,
-      signupTokenExpiration: kr_curr,
+      signupTokenExpiration: curr,
     });
 
     res.status(201).json({ id: user.id, msg: "user created successfully" });
@@ -108,7 +108,7 @@ exports.authorizeUser = async (req, res, next) => {
     console.log(req.query);
     const signupToken = req.query.token;
     const user = await User.findOne({ where: { signupToken } });
-
+    
     if (!user) {
       const error = new Error("Invalid signup token provided");
       error.statusCode = 403;

@@ -23,22 +23,28 @@ module.exports = sequelize.define(
             allowNull: false,
         },
         type: {
+            // movie, drama
             type: DataTypes.STRING,
             allowNull: false,
         },
-        url: {
+        isSeries: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        video: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        running_time: {
+        duration: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        summary: {
+        desc: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        preview: {
+        trailer: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -48,6 +54,10 @@ module.exports = sequelize.define(
         },
         cast: {
             type: DataTypes.STRING,
+            allowNull: false,
+        },
+        limit: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         }
     }
