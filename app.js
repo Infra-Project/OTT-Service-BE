@@ -33,6 +33,9 @@ app.use(morgan("combined", { stream: logStream }));
 app.use(cors());
 app.use(xss());
 
+app.use("/", (req, res, next) => {
+  res.status(200).json({ msg: "its okay" })
+});
 app.use("/auth", authRoute);
 app.use("/media", mediaRoute);
 app.use("/lists", listRoute);
