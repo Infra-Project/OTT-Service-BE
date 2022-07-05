@@ -38,9 +38,6 @@ app.use("/auth", authRoute);
 app.use("/media", mediaRoute);
 app.use("/lists", listRoute);
 app.use("/movies", movieRoute)
-app.use("/", (req, res, next) => {
-  res.status(200).json({ msg: "its okay" })
-});
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;

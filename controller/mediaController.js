@@ -7,7 +7,7 @@ const User = require("../models/user")
 
 exports.upload = async (req, res, next) => {
     try {
-        const user = await User.findOne({where: { id: req.userId, status: true, isAdmin: true}});
+        const user = await User.findOne({where: { id: req.userId, status: true, isAdmin: true }});
         if (!user) {
             const error = new Error("Unauthorized user")
             error.statusCode = 403;

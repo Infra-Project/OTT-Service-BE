@@ -13,15 +13,17 @@ exports.getLists = async (req, res, next) => {
             if (genre) {
                 // type, genre
                 console.log("type, genre", type, genre)
-                movieList = await Movie.findAll({ where: { type, genre } })
+                movieList = await Movie.findAll({ where: { type, genre }, include: Episode })
             } else {
                 // type
-                movieList = await Movie.findAll({ where: { type } })
+                movieList = await Movie.findAll({ where: { type }, include: Episode })
             }
         } else {
             // genre
-            movieList = await Movie.findAll({ where: { genre }})
+            movieList = await Movie.findAll({ where: { genre }, include: Episode })
         }
+        // const episode = movieList.getEpisodes();
+        // console.log("episode", episode);
         res.status(200).json({ list: movieList})
     } catch (error) {
         next(error);
