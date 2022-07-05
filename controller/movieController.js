@@ -34,9 +34,6 @@ exports.getRandomMovies = async (req, res, next) => {
 
         const rn = Object.keys(movie).length;
         const ro = Object.values(movie)[Math.ceil(Math.random() * rn)-1];
-        // const ro = Object.values(movie)[4];
-        console.log("******", rn)
-        console.log("*****", ro);
         
         res.status(200).json({ ro });
     } catch (error) {
