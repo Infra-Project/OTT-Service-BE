@@ -8,7 +8,7 @@ const Sequelize = require("sequelize");
 exports.getMovie = async (req, res, next) => {
     try {
         const movieId = req.params.id;
-        const movie = await Movie.findOne({ where: { id: movieId } })
+        const movie = await Movie.findOne({ where: { id: movieId } , include: Episode })
         if(!movie) {
             const error = new Error("do not have a movie with " + movieId);
             error.statusCode = 403;
@@ -29,7 +29,7 @@ exports.getRandomMovies = async (req, res, next) => {
             movie = await Movie.findAll({ where: { type } })
         } else {
             // type = series, movie 
-            movie = await Movie.findAll({ where: {type: "series"} })
+            movie = await Movie.findAll({ where: { type: "series" } })
         } 
 
         const rn = Object.keys(movie).length;
