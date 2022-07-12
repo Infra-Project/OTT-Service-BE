@@ -4,6 +4,9 @@ metadata:
   labels:
     app: ott-app
     role: production
+    tags.datadoghq.com/env: prod
+    tags.datadoghq.com/service: ott-app
+    tags.datadoghq.com/version: 1.0.0
   name: production-deploy
 spec:
   replicas: 3
@@ -14,6 +17,9 @@ spec:
     metadata:
       labels:
         role: production
+        tags.datadoghq.com/env: prod
+        tags.datadoghq.com/service: ott-app
+        tags.datadoghq.com/version: 1.0.0
     spec:
       affinity: 
         nodeAffinity:
@@ -25,8 +31,23 @@ spec:
                 values:
                 - production
       containers:
-        - name: myweb
+        - name: ott-app
           image: how0326/ott_service
+          env:
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
+            - name: DD_LOGS_INJECTION
+              value: "true"
           ports:
             - containerPort: 8080
             
