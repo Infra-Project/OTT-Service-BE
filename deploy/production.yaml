@@ -9,7 +9,7 @@ metadata:
     tags.datadoghq.com/version: 1.0.0
   name: production-deploy
 spec:
-  replicas: 3
+#  replicas: 3
   selector:
     matchLabels:
       role: production

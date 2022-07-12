@@ -26,8 +26,6 @@ const app = express();
 
 const tracer = require('dd-trace').init()
 
-tracer;
-
 const logStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",
 });
