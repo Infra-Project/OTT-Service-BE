@@ -20,8 +20,13 @@ const authRoute = require("./routes/authRoute");
 const mediaRoute = require("./routes/mediaRoute");
 const listRoute = require("./routes/listRoute");
 const movieRoute = require("./routes/movieRoute");
+const signedUrlRoute = require("./routes/signedURLRoute");
 
 const app = express();
+
+const tracer = require('dd-trace').init()
+
+tracer;
 
 const logStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",
@@ -37,7 +42,8 @@ app.use(xss());
 app.use("/auth", authRoute);
 app.use("/media", mediaRoute);
 app.use("/lists", listRoute);
-app.use("/movies", movieRoute)
+app.use("/movies", movieRoute);
+app.use("/signedUrl", signedUrlRoute);
 app.use("/", (req, res, next) => {
   res.status(200).json({ msg: "health check" });
 })

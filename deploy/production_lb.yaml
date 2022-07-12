@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: production-svc-lb
   labels:
-    app: springboot-app
-    k8s-app: springboot-app
+    app: ott-app
+    k8s-app: ott-app
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "external"
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
