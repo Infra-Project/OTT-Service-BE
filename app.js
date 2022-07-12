@@ -1,3 +1,4 @@
+const tracer = require('dd-trace').init()
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -23,8 +24,6 @@ const movieRoute = require("./routes/movieRoute");
 const signedUrlRoute = require("./routes/signedURLRoute");
 
 const app = express();
-
-const tracer = require('dd-trace').init()
 
 const logStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",
