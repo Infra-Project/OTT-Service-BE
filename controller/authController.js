@@ -47,7 +47,6 @@ exports.signup = async (req, res, next) => {
       throw error;
     }
 
-    const test = "test";
     const signupToken = await bcrypt.hash(email, 10);
 
     transporter.sendMail({
