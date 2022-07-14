@@ -42,3 +42,10 @@ spec:
                 name: production-svc-lb
                 port:
                   number: 80
+          - path: /signedUrl
+            pathType: Prefix
+            backend:
+              service:
+                name: production-svc-lb
+                port:
+                  number: 80
