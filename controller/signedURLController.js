@@ -6,7 +6,7 @@ const Movie = require("../models/movies");
 require("dotenv").config();
 
 
-const distUrl = 'https://d30pibsyho0pfr.cloudfront.net';
+const distUrl = 'https://d24g4g3n4eb20o.cloudfront.net';
 //const s3Key = 'puppuy_bbori/Default/puppuy_bboriFILE-GROUP-MP4-720.mp4';
 //const cfAccessKeyId = process.env.CF_PUBLIC_KEY; 
 const cfAccessKeyId = "K36UYZTZV0A3TA"
