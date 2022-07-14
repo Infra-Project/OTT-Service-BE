@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const User = require('../models/user');
 const Movie = require("../models/movies");
+const Episode = require("../models/episode");
 require("dotenv").config();
 
 
@@ -18,10 +19,17 @@ const twoHours = 30*1000;
 exports.getSignedUrl = async(req, res, next) => {
     try{
         console.log(new Date().getTime() / 1000);
-        const movieId = req.params.id;
-        const movie = await Movie.findOne({where: { id: movieId }})
-        const s3Key = movie.video;
-        // console.log(s3Key);
+        const movieId = req.query.movieId;
+        const episodeId = req.query.episodeId;
+        let media;
+        if (movieId) {
+            if (episodeId) {
+                media = await Episode.findOne({where: { id: episodeId, movieId: movieId }})
+            } else {
+                media = await Movie.findOne({where: { id: movieId }})
+            }
+        }//res.status(200).json({ media })
+        const s3Key = media.video;
         let cfObjectUrl = distUrl + '/' + s3Key;
         const signedUrl = signer.getSignedUrl({
             url: cfObjectUrl,
@@ -29,7 +37,8 @@ exports.getSignedUrl = async(req, res, next) => {
         })
         console.log(signedUrl)
         res.status(201).json({ signedUrl })
-    }catch (error) {
+
+    }catch (error){
         next(error);
     }
 }
