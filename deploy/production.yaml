@@ -32,7 +32,7 @@ spec:
                 - production
       containers:
         - name: ott-app
-          image: how0326/ott_service:13
+          image: how0326/ott_service:14
           env:
             - name: DD_AGENT_HOST
               valueFrom:
