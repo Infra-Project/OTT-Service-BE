@@ -28,19 +28,19 @@ pipeline {
       }
     }
     
-    stage('Maven Jar Build') {
-      steps {
-        sh 'mvn clean install'  
-      }
-      post {
-        failure {
-          echo 'Maven war build failure' 
-        }
-        success {
-          echo 'Maven war build success'
-        }
-      }
-    }
+    // stage('Maven Jar Build') {
+    //   steps {
+    //     sh 'mvn clean install'  
+    //   }
+    //   post {
+    //     failure {
+    //       echo 'Maven war build failure' 
+    //     }
+    //     success {
+    //       echo 'Maven war build success'
+    //     }
+    //   }
+    // }
     
     
     stage('Docker Image Build') {
@@ -104,11 +104,11 @@ pipeline {
       post {
         failure {
           echo 'K8S Manifest Update failure'
-          slackSend (color: '#FF0000', message: "FAILED: K8S Manifest Update '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+          //slackSend (color: '#FF0000', message: "FAILED: K8S Manifest Update '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
         success {
           echo 'K8s Manifest Update success'
-          slackSend (color: '#0AC9FF', message: "SUCCESS: K8S Manifest Update '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+          //slackSend (color: '#0AC9FF', message: "SUCCESS: K8S Manifest Update '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
       }
     }
