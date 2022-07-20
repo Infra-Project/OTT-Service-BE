@@ -30,7 +30,6 @@ spec:
 #       - pause: { duration: 10s }  10초
 #       - pause: { duration: 10m }  10분
 #       - pause: { duration: 10h }  10시간
-#       - pause: {}                 Auto Promotion 옵션 비활성화
 ---
 kind: Service
 apiVersion: v1
