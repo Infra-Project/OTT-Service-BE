@@ -25,11 +25,7 @@ spec:
       maxUnavailable: 0		#배포될 때, Unavailable 되는 Pod의 수
       steps:
       - setWeight: 25		#weight 값을 주어 traffic을 어느 정도 인가하는지에 대한 옵션
-      - pause: {}		#AutoPromotion Time
-#       - pause: { duration: 10 }   10초
-#       - pause: { duration: 10s }  10초
-#       - pause: { duration: 10m }  10분
-#       - pause: { duration: 10h }  10시간
+      - pause: { duration: 15 }		#AutoPromotion Time
 ---
 kind: Service
 apiVersion: v1
