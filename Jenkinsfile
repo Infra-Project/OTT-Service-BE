@@ -28,20 +28,6 @@ pipeline {
       }
     }
     
-    // stage('Maven Jar Build') {
-    //   steps {
-    //     sh 'mvn clean install'  
-    //   }
-    //   post {
-    //     failure {
-    //       echo 'Maven war build failure' 
-    //     }
-    //     success {
-    //       echo 'Maven war build success'
-    //     }
-    //   }
-    // }
-    
     
     stage('Docker Image Build') {
       steps {
