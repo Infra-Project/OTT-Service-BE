@@ -38,9 +38,9 @@ app.use(xss());
 
 app.use("/auth", authRoute);
 app.use("/media", mediaRoute);
+app.use("/signedUrl", signedUrlRoute);
 app.use("/lists", listRoute);
 app.use("/movies", movieRoute);
-app.use("/signedUrl", signedUrlRoute);
 app.use("/", (req, res, next) => {
   res.status(200).json({ msg: "health check" });
 })

@@ -11,7 +11,7 @@ const User = require("../models/user");
 const EMAIL = "hibogo789@gmail.com";
 
 const transporter = nodemailer.createTransport({
-  // service: "gmail",
+  service: "gmail",
   port: 465,
   host: "smtp.gmail.com",
   secure: true,
