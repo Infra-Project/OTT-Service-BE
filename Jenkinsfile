@@ -8,8 +8,8 @@ pipeline {
     dockerHubRegistry = 'how0326/ott_service'
     dockerHubRegistryCredential = 'docker'
     githubCredential = 'git_hub'
-    gitEmail = 'fc0420@ajou.ac.kr'
-    gitName = 'JisooKinn'
+    gitEmail = 'hibogo789@gmail.com'
+    gitName = 'seongwoo-choi'
   }
   
   stages {
@@ -80,6 +80,7 @@ pipeline {
         sh "git config --global user.email ${gitEmail}"
         sh "git config --global user.name ${gitName}"
         sh "sed -i 's/ott_service:.*/ott_service:${currentBuild.number}/g' deploy/production.yaml"
+        sh "sed -i 's/ott_service:.*/ott_service:${currentBuild.number}/g' cicd/canary.yaml"
         sh "git add ."
         sh "git commit -m 'fix:${dockerHubRegistry} ${currentBuild.number} image versioning'"
         sh "git branch -M main"

@@ -30,6 +30,16 @@ spec:
                 operator: In
                 values:
                 - production
+      volumes:
+        - name: keypair-myssh.pub
+          configMap:
+            name: myssh.pub # kubectl create configmap myssh.pub --from-file=keypair/myssh.pub
+        - name: ott-app
+          secret:
+            secretName: ott-app-config # kubectl create secret generic ott-app-config --from-file=.env
+        - name: keypair-myssh
+          secret:
+            secretName: myssh # kubectl create secret generic keypair --from-file=keypair/myssh
       containers:
         - name: ott-app
           image: how0326/ott_service:17
@@ -50,4 +60,29 @@ spec:
               value: "true"
           ports:
             - containerPort: 8080
-            
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 1
+            timeoutSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - ls
+                - app.js
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 1
+            timeoutSeconds: 10
+          volumeMounts:
+            - name: ott-app
+              mountPath: /app/.env
+            - name: keypair-myssh
+              mountPath: /app/keypair/myssh
+            - name: keypair-myssh.pub
+              mountPath: /app/keypair/myssh.pub
