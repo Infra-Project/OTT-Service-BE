@@ -1,2 +1,5 @@
 .env
 keypair
+.idea
+.gitignore
+.git

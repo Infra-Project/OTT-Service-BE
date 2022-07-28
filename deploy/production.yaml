@@ -33,7 +33,7 @@ spec:
       volumes:
         - name: keypair-myssh.pub
           configMap:
-            name: myssh.pub # kubectl create configmap myssh.pub --from-file=keypair/myssh.pub
+            name: myssh.pub  # kubectl create configmap myssh.pub --from-file=keypair/myssh.pub
         - name: ott-app
           secret:
             secretName: ott-app-config # kubectl create secret generic ott-app-config --from-file=.env
