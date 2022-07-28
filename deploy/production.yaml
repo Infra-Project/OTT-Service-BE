@@ -67,23 +67,23 @@ spec:
               value: "true"
           ports:
             - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 2
-            successThreshold: 1
-            failureThreshold: 1
-            timeoutSeconds: 10
-          readinessProbe:
-            exec:
-              command:
-                - ls
-                - /app/app.js
-            initialDelaySeconds: 5
-            periodSeconds: 2
-            successThreshold: 1
-            failureThreshold: 1
-            timeoutSeconds: 10
+#          livenessProbe:
+#            httpGet:
+#              path: /health
+#              port: 8080
+#            initialDelaySeconds: 5
+#            periodSeconds: 2
+#            successThreshold: 1
+#            failureThreshold: 1
+#            timeoutSeconds: 10
+#          readinessProbe:
+#            exec:
+#              command:
+#                - ls
+#                - /app/app.js
+#            initialDelaySeconds: 5
+#            periodSeconds: 2
+#            successThreshold: 1
+#            failureThreshold: 1
+#            timeoutSeconds: 10
 
