@@ -71,8 +71,8 @@ spec:
             httpGet:
               path: /
               port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            periodSeconds: 2
             successThreshold: 1
             failureThreshold: 1
             timeoutSeconds: 10
@@ -81,8 +81,8 @@ spec:
               command:
                 - ls
                 - /app/app.js
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            periodSeconds: 2
             successThreshold: 1
             failureThreshold: 1
             timeoutSeconds: 10

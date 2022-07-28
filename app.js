@@ -41,7 +41,10 @@ app.use("/media", mediaRoute);
 app.use("/signedUrl", signedUrlRoute);
 app.use("/lists", listRoute);
 app.use("/movies", movieRoute);
-app.use("/", (req, res, next) => {
+// app.use("/", (req, res, next) => {
+//   res.status(200).json({ msg: "health check" });
+// })
+app.get("/health", (req, res, next) => {
   res.status(200).json({ msg: "health check" });
 })
 
