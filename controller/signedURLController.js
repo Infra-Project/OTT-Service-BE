@@ -10,8 +10,9 @@ require("dotenv").config();
 const distUrl = 'https://d24g4g3n4eb20o.cloudfront.net';
 //const s3Key = 'puppuy_bbori/Default/puppuy_bboriFILE-GROUP-MP4-720.mp4';
 //const cfAccessKeyId = process.env.CF_PUBLIC_KEY; 
-const cfAccessKeyId = "K36UYZTZV0A3TA"
-let cfPrivateKey = fs.readFileSync(path.join(__dirname, 'private_key.pem'));
+const cfAccessKeyId = process.env.CF_ACCESS_KEY_ID;
+// let cfPrivateKey = fs.readFileSync(path.join(__dirname, 'private_key.pem'));
+let cfPrivateKey = process.env.SIGNED_URL_PRIVATE_KEY;
 const signer = new AWS.CloudFront.Signer(cfAccessKeyId, cfPrivateKey)
 const twoHours = 30*1000;
 
