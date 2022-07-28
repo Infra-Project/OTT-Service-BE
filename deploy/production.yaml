@@ -43,6 +43,7 @@ spec:
       containers:
         - name: ott-app
           image: how0326/ott_service:modify
+          # resources 추가
           volumeMounts:
             - name: ott-app
               mountPath: /app/.env
