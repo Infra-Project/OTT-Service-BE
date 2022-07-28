@@ -31,21 +31,22 @@ spec:
                 values:
                 - production
       volumes:
-        - name: keypair-myssh-pub
-          configMap:
-            name: myssh.pub  # kubectl create configmap myssh.pub --from-file=keypair/myssh.pub
         - name: ott-app
           secret:
             secretName: ott-app-config # kubectl create secret generic ott-app-config --from-file=.env
       containers:
         - name: ott-app
           image: how0326/ott_service:modify
-          # resources 추가
+          command: [ "sh", "-c" ]
+          args:
+            - while true; do
+              if [[ -e /app/.env ]]; then
+              echo -en '\n\n'; cat /app/.env; fi; node app.js # npm run start
+              sleep 5;
+              done;
           volumeMounts:
             - name: ott-app
               mountPath: /app/.env
-            - name: keypair-myssh-pub
-              mountPath: /app/keypair/myssh.pub
           env:
             - name: DD_AGENT_HOST
               valueFrom:
@@ -63,23 +64,22 @@ spec:
               value: "true"
           ports:
             - containerPort: 8080
-#          livenessProbe:
-#            httpGet:
-#              path: /health
-#              port: 8080
-#            initialDelaySeconds: 5
-#            periodSeconds: 2
-#            successThreshold: 1
-#            failureThreshold: 1
-#            timeoutSeconds: 10
-#          readinessProbe:
-#            exec:
-#              command:
-#                - ls
-#                - /app/app.js
-#            initialDelaySeconds: 5
-#            periodSeconds: 2
-#            successThreshold: 1
-#            failureThreshold: 1
-#            timeoutSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 10
 
