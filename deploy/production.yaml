@@ -42,7 +42,7 @@ spec:
             - while true; do
               if [[ -e /app/.env ]]; then
               echo -en '\n\n'; cat /app/.env; fi; node app.js;
-              sleep 5;
+              sleep 1;
               done;
           volumeMounts:
             - name: ott-app
