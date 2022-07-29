@@ -35,7 +35,6 @@ app.use(morgan("combined", { stream: logStream }));
 app.use(cors());
 app.use(xss());
 
-
 app.use("/auth", authRoute);
 app.use("/media", mediaRoute);
 app.use("/signedUrl", signedUrlRoute);

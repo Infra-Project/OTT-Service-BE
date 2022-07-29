@@ -36,7 +36,7 @@ spec:
             secretName: ott-app-config # kubectl create secret generic ott-app-config --from-file=.env
       containers:
         - name: ott-app
-          image: how0326/ott_service:modify
+          image: how0326/ott_service:17
           command: [ "sh", "-c" ]
           args:
             - while true; do
