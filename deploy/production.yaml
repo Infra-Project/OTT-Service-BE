@@ -7,7 +7,7 @@ metadata:
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "ott-app"
     tags.datadoghq.com/version: "1.0.0"
-  name: production-deploy
+  name: production-ott-app
 spec:
   replicas: 3
   selector:
@@ -30,23 +30,14 @@ spec:
                 operator: In
                 values:
                 - production
-      volumes:
-        - name: ott-app
-          secret:
-            secretName: ott-app-config # kubectl create secret generic ott-app-config --from-file=.env
       containers:
         - name: ott-app
           image: how0326/ott_service:17
-          command: [ "sh", "-c" ]
-          args:
-            - while true; do
-              if [[ -e /app/.env ]]; then
-              echo -en '\n\n'; cat /app/.env; fi; node app.js;
-              sleep 1;
-              done;
-          volumeMounts:
-            - name: ott-app
-              mountPath: /app/.env
+          envFrom:
+            - secretRef:
+                name: secret-configs  # kubectl create secret generic secret-configs --from-file=secret-configs
+            - configMapRef:           # kubectl create configmap configs --from-file=configs
+                name: configs
           env:
             - name: DD_AGENT_HOST
               valueFrom:
