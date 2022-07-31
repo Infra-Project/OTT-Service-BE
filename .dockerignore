@@ -1,0 +1,6 @@
+.env
+keypair
+.idea
+.git
+node_modules
+access.log

@@ -7,7 +7,7 @@ metadata:
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "ott-app"
     tags.datadoghq.com/version: "1.0.0"
-  name: production-deploy
+  name: production-ott-app
 spec:
   replicas: 3
   selector:
@@ -32,7 +32,12 @@ spec:
                 - production
       containers:
         - name: ott-app
-          image: how0326/ott_service:17
+          image: how0326/ott_service:18
+          envFrom:
+            - secretRef:
+                name: secret-configs  # kubectl create secret generic secret-configs --from-file=secret-configs
+            - configMapRef:           # kubectl create configmap configs --from-file=configs
+                name: configs
           env:
             - name: DD_AGENT_HOST
               valueFrom:
@@ -50,4 +55,21 @@ spec:
               value: "true"
           ports:
             - containerPort: 8080
-            
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 20
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 5
+            timeoutSeconds: 20
